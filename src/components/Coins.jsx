@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { server } from "../index";
-import { Container, HStack } from "@chakra-ui/react";
+import { Button, Container, HStack, Radio, RadioGroup } from "@chakra-ui/react";
 import Loader from "./Loader";
 import ErrorCompoNent from "./ErrorCompoNent";
 import CoinCards from "./CoinCards";
@@ -12,6 +12,8 @@ const Coins = () => {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [currency, setCurrancy] = useState("inr");
+
+  const btn = new Array(132).fill(1);
 
   useEffect(() => {
     const fetchCoins = async () => {
@@ -29,19 +31,31 @@ const Coins = () => {
     fetchCoins();
   }, [currency, page]);
 
+  const changePage = (page) => {
+    setPage(page);
+    setLoading(true);
+  };
+
   const currencySymbol =
     currency === "inr" ? "₹" : currency === "eur" ? "€" : "$";
 
   if (error)
-    return <ErrorCompoNent message={"Error on Fetching  Coins card"} />;
+    return <ErrorCompoNent message={"Error On Fetching  Coins Cards..."} />;
 
   return (
     <Container maxW={"container.xl"}>
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
-          <HStack wrap={"wrap"}>
+          <RadioGroup p={6} value={currency} onChange={setCurrancy}>
+            <HStack spacing={4}>
+              <Radio value={"inr"}>₹ INR</Radio>
+              <Radio value={"usd"}>$ USD</Radio>
+              <Radio value={"eur"}>€ EURO</Radio>
+            </HStack>
+          </RadioGroup>
+          <HStack wrap={"wrap"} justifyContent={'space-evenly'}>
             {coins.map((i) => (
               <CoinCards
                 key={i.id}
@@ -52,6 +66,18 @@ const Coins = () => {
                 img={i.image}
                 currencySymbol={currencySymbol}
               />
+            ))}
+          </HStack>
+          <HStack w={"full"} overflowX={"auto"} >
+            {btn.map((item, index) => (
+              <Button
+                key={index}
+                bgColor={"blackAlpha.900"}
+                color={"white"}
+                onClick={() => changePage(index + 1)}
+              >
+                {index + 1}
+              </Button>
             ))}
           </HStack>
         </>

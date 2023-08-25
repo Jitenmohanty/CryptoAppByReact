@@ -39,7 +39,7 @@ if(error) return <ErrorCompoNent message={"Error on Fetching Exchange Coin card"
         <Loader />
       ) : (
         <>
-          <HStack wrap={"wrap"}>
+          <HStack wrap={"wrap"} justifyContent={'space-evenly'}>
             {exchages.map((i) => (
               <ExchangeCard
                 key={i.id}
