@@ -106,11 +106,24 @@ const CoinDetails = () => {
         <Loader />
       ) : (
         <>
-          <Box width={"full"} borderWidth={1}>
+          <Box width={"full"} borderWidth={1}  >
             <Chart arr={chartArray} currency={currencySymbol} days={days} />
           </Box>
 
-          <HStack p="4" overflowX={"auto"}>
+          <HStack p="4" overflowX={"auto"} css={{
+              "&::-webkit-scrollbar": {
+                width: "4px",
+                height: "4px",
+                margin: "4px",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "transparent",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "#c99dc9",
+                borderRadius: "3px",
+              },
+            }}>
             {btns.map((i) => (
               <Button
                 disabled={days === i}
@@ -159,7 +172,7 @@ const CoinDetails = () => {
               low={`${currencySymbol}${coin.market_data.low_24h[currency]}`}
             />
 
-            <Box w={"full"} p="4">
+            <Box w={"full"} >
               <Item title={"Max Supply"} value={coin.market_data.max_supply} />
               <Item
                 title={"Circulating Supply"}
@@ -186,7 +199,7 @@ const CoinDetails = () => {
 };
 
 const Item = ({ title, value }) => (
-  <HStack justifyContent={"space-between"} w={"full"} my={"4"}>
+  <HStack justifyContent={"space-between"} w={"full"} my={["4"]}>
     <Text fontFamily={"Bebas Neue"} letterSpacing={"widest"}>
       {title}
     </Text>

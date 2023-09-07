@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { server } from "../index";
 import { Button, Container, HStack, Radio, RadioGroup } from "@chakra-ui/react";
@@ -7,7 +7,6 @@ import ErrorCompoNent from "./ErrorCompoNent";
 import CoinCards from "./CoinCards";
 
 const Coins = () => {
-  const scrollBehaviourRef = useRef();
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -37,20 +36,6 @@ const Coins = () => {
     setLoading(true);
   };
 
-  const handleMouseEnter = () => {
-    const content = scrollBehaviourRef.current;
-    if (content) {
-      content.style.animation = "scroll 5s linear infinite"; // Optional: Smooth scrolling animation
-      console.log("Lol");
-    }
-  };
-
-  const handleMouseLeave = () => {
-    const content = scrollBehaviourRef.current;
-    if (content) {
-      content.style.animation = "none";
-    }
-  };
 
   const currencySymbol =
     currency === "inr" ? "₹" : currency === "eur" ? "€" : "$";
@@ -71,7 +56,7 @@ const Coins = () => {
               <Radio value={"eur"}>€ EURO</Radio>
             </HStack>
           </RadioGroup>
-          <HStack wrap={"wrap"} justifyContent={"space-evenly"}>
+          <HStack wrap={"wrap"} justifyContent={"space-evenly"} >
             {coins.map((i) => (
               <CoinCards
                 key={i.id}
@@ -85,14 +70,11 @@ const Coins = () => {
             ))}
           </HStack>
           <HStack
-            ref={scrollBehaviourRef}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
             w={"full"}
             overflowX={"auto"}
             css={{
               "&::-webkit-scrollbar": {
-                width: "4px",
+                width: "8px",
                 height: "8px",
                 margin: "4px",
               },
@@ -107,9 +89,14 @@ const Coins = () => {
           >
             {btn.map((item, index) => (
               <Button
+              _hover={{
+                backgroundColor: "#c7289d",
+                color: "white",
+              }}
                 key={index}
                 bgColor={"blackAlpha.900"}
                 color={"white"}
+
                 onClick={() => changePage(index + 1)}
               >
                 {index + 1}
